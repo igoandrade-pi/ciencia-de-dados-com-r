@@ -277,5 +277,177 @@ x <- as.numeric(x)
 x
 ```
 
+\begin{enumerate}[resume, leftmargin=*]
+  \item Para os exercícios \ref{q24} a \ref{q31} usaremos o conjunto de dados de assassinatos nos EUA. Certifique-se de carregá-lo antes de começar. Use o operador \verb|$| para acessar os dados do tamanho da população e armazená-los como objeto \verb|pop|. Em seguida, use a função \verb|sort| para redefinir \verb|pop| para que seja classificado. Finalmente, use o operador \verb|[| para relatar o menor tamanho da população. \label{q24}
+\end{enumerate}
+
+```{r}
+library("dslabs")
+
+data("murders")
+
+pop <- murders$population
+
+pop <- sort(pop)
+
+pop[1]
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Agora, em vez do menor tamanho populacional, encontre o índice da entrada com o menor tamanho populacional. Dica: use \verb|order| em vez de \verb|sort|.
+\end{enumerate}
+
+```{r}
+indices <- order(murders$population)
+
+i_min <- indices[1]
+
+i_min
+```
+
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Na verdade, podemos realizar a mesma operação do exercício anterior usando a função \verb|which.min|. Escreva uma linha de código que faça isso.
+\end{enumerate}
+
+```{r}
+i_min <- which.min(murders$population)
+
+i_min
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Agora sabemos quão pequeno é o menor estado e qual linha o representa. Qual estado é esse? Defina uma variável \verb|states| para ser os nomes dos estados do \textit{data frame} \verb|murders|. Informe o nome do estado com menor população.
+\end{enumerate}
+
+```{r}
+states <- murders$state
+
+states[i_min]
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Você pode criar um \textit{data frame} usando a função \verb|data.frame|. Aqui está um exemplo rápido:
+\end{enumerate}
+
+```{r}
+temp <- c(35, 88, 42, 84, 81, 30)
+city <- c("Beijing", "Lagos", "Paris", "Rio de Janeiro", "San Juan", "Toronto")
+
+city_temps <- data.frame(name=city, temperature=temp)
+
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item[] Use a função \verb|rank| para determinar a classificação da população de cada estado, do menor ao maior tamanho populacional. Salve essas classificações em um objeto chamado \verb|ranks| e crie um \textit{data frame} com o nome do estado e sua classificação. Chame o quadro de dados \verb|my_df|. 
+\end{enumerate}
+
+```{r}
+ranks <- rank(murders$population)
+
+state <- murders$state
+
+my_df <- data.frame(state, ranks)
+my_df
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Repita o exercício anterior, mas desta vez ordene \verb|my_df| de forma que os estados sejam ordenados do menos populoso para o mais populoso. Dica: crie um objeto \verb|ind| que armazene os índices necessários para ordenar os valores da população. Em seguida, use o operador de colchetes \verb|[| para reordenar cada coluna no quadro de dados.
+\end{enumerate}
+
+```{r}
+ind <- order(murders$population)
+
+state <- murders$state
+
+state <- state[ind]
+pop <- murders$population
+
+pop <- pop[ind]
+
+my_df <- data.frame(state, pop)
+
+my_df
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item O vetor \verb|na_example| representa uma série de contagens. Você pode examinar rapidamente o objeto usando:
+\end{enumerate}
+
+```{r}
+str(na_example)
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item[]  No entanto, quando calculamos a média com a função mean, obtemos \verb|NA|:
+\end{enumerate}
+
+```{r}
+mean(na_example)
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item[] A função \verb|is.na| retorna um vetor lógico que nos informa quais entradas são \verb|NA|. Atribua este vetor lógico a um objeto chamado inde determine quantos NAs \verb|na_example| possui.
+\end{enumerate}
+
+```{r}
+ind <- is.na(na_example)
+
+sum(ind)
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Agora calcule a média novamente, mas apenas para as entradas que não são \verb|NA|. Dica: lembre-se do operador \verb|!|.  \label{q31}
+\end{enumerate}
+
+```{r}
+mean(na_example[!ind])
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item  Anteriormente criamos este quadro de dados:
+\end{enumerate}
+
+```{r}
+temp <- c(35, 88, 42, 84, 81, 30)
+city <- c("Beijing", "Lagos", "Paris", "Rio de Janeiro", "San Juan", "Toronto")
+city_temps <- data.frame(name = city, temperature = temp)
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item[] Refaça o quadro de dados usando o código acima, mas adicione uma linha que converta a temperatura de Fahrenheit para Celsius. A conversão é $C = \frac{5}{9} \times \left(F - 32\right)$.
+\end{enumerate}
+
+```{r}
+temp_f <- c(35, 88, 42, 84, 81, 30)
+
+temp_c <- round((5/9) * (temp_f - 32), 2)
+
+city <- c("Beijing", "Lagos", "Paris", "Rio de Janeiro", "San Juan", "Toronto")
+city_temps <- data.frame(name = city, temp_Fahrenheit = temp_f, temp_Celsius = temp_c)
+
+city_temps
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Qual é a seguinte soma $ 1 + 1/2^2 + 1/3^2 + \cdots + 1/100^2$? ica: graças a Euler, sabemos que deveria estar próximo de $\pi^2/6$.
+\end{enumerate}
+
+```{r}
+denominador <- seq(from=1, to=100)
+
+x <- 1 / denominador ^2
+
+sum(x)
+```
+
 
 
