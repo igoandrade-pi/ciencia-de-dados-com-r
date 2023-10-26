@@ -1,0 +1,281 @@
+---
+title: "Introdução ao R e ao RStudio"
+author: "Igo da Costa Andrade"
+date: "`r Sys.Date()`"
+output: 
+  pdf_document:
+    extra_dependencies: ["enumitem", "xcolor"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(scipen=999)
+```
+
+## 2.11 Exercícios
+
+\begin{enumerate}[leftmargin=*]
+  \item Qual é a soma dos primeiros 100 números inteiros positivos? A fórmula para a soma dos inteiros de 1 até $n$  é $n \left(n+1\right)/2$. Defina $n = 100$ e então use \verb|R| para calcular a soma de 1 até 100 usando a fórmula. Qual é a soma?
+  
+\end{enumerate}
+  
+```{r}
+n <- 100
+
+soma = n * (n+1) / 2
+
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+
+\item[] \textbf{Resposta}: A soma dos primeiros `r n` inteiros positivos é `r soma`. 
+
+
+\item Agora use a mesma fórmula para calcular a soma dos inteiros de 1 a 1000.
+
+\end{enumerate}
+
+
+```{r}
+n <- 1000
+soma = n * (n+1) / 2
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+
+\item[] \textbf{Resposta}: A soma dos primeiros `r n` inteiros positivos é `r soma`. 
+
+\item Observe o resultado da digitação do seguinte códico em \verb|R|:
+
+
+\end{enumerate}
+
+
+```{r}
+n <- 1000
+x <- seq(1, n)
+sum(x)
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+\item[] Com base no resultado, o que você acha que as funções \verb|seq| e \verb|sum| fazem? 
+
+  \begin{enumerate}[label=\alph*.]
+    \item \verb|sum| cria uma lista de números e \verb|seq| os soma.
+    {\color{red} \item \verb|seq| cria uma lista de números e \verb|sum| os soma.}
+    \item \verb|seq| cria uma lista aleatória e \verb|sum| calcula a soma de 1 a 1.000.
+    \item \verb|sum| sempre retorna o mesmo número.
+  \end{enumerate}
+  
+  \item Em matemática e programação, dizemos que avaliamos uma função quando substituimos o argumento por um determinado número. Então, se digitarmos \verb|sqrt(4)|, avaliaremos a função \verb|sqrt|. Em \verb|R|, você pode avaliar uma função dentro de outra função. As avaliações acontecem de dendro para fora. Use uma linha de código para calcular o logarítmo, na base 10, da raiz quadrada de 100.
+\end{enumerate} 
+
+```{r}
+log(sqrt(100), base=10)
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+\item  Qual das opções a seguir sempre retornará o valor numérico armazenado em \verb|x|?
+
+  \begin{enumerate}[label=\alph*.]
+    \item \verb|log(10^x)|
+    \item \verb|log10(x^10)|
+    {\color{red} \item \verb|log(exp(x))|}
+    \item \verb|log(x, base=2)|
+  \end{enumerate}
+  
+  \item Certifique-se de que o conjunto de dados de assassinatos nos EUA esteja carregado. Use a função \verb|str| para examinar a estrutura do ibjeto \verb|murder|. Qual das alternativas a seguir descreve melhor as variáveis representadas neste \textit{data frame}.
+  
+  \begin{enumerate}[label=\alph*.]
+    \item Os 51 estados.
+    \item As taxas de homicídio em todos os 50 estados e DC.
+    {\color{red} \item O nome do estado, a abreviatura do nome do estado, a região do estado e a população do estado e o número total de assassinatos em 2010.}
+    \item \verb|str| não apresenta informações relevantes.
+  \end{enumerate}
+\end{enumerate}
+
+```{r}
+library(dslabs)
+data("murders")
+
+str(murders)
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Quais são os nomes das colunas usadas pelo \textit{data frame} para essas cinco variáveis?
+\end{enumerate}
+
+```{r}
+colnames(murders)
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Use o acessador \verb|$| para extrair as abreviações de estado e atribuí-las ao objeto \verb|a|. Qual é a classe deste objeto?
+\end{enumerate}
+
+```{r}
+a <- murders$abb
+
+class(a)
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Agora use os colchetes para extrair as abreviações de estado e atribuí-las ao objeto \verb|b|. Use a função \verb|identical| para determinar se \verb|a| e \verb|b| são iguais.
+\end{enumerate}
+
+```{r}
+b <- murders[['abb']]
+
+identical(a, b)
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Vimos que a coluna \verb|region| armazena um fator. Você pode corroborar isso digitando:
+\end{enumerate}
+
+```{r}
+class(murders$region)
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item[] Com uma linha de código, use as funções \verb|levels| e \verb|length| para determinar o número de regiões definidas por este conjunto de dados.
+\end{enumerate}
+
+```{r}
+length(levels(murders$region))
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item A função \verb|table| pega um vetor e retorna a frequência de cada elemento. Você pode ver rapidamente quantos estados existem em cada região aplicando esta função. Use esta função em uma linha de código para criar uma tabela de estados por região.
+\end{enumerate}
+
+```{r}
+table(murders$region)
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Use a função \verb|c| para criar um vetor com as altas temperaturas médias em janeiro para Pequim, Lagos, Paris, Rio de Janeiro, San Juan e Toronto, que são 35, 88, 42, 84, 81 e 30 graus Fahrenheit. Chame o objeto \verb|temp|.
+\end{enumerate}
+
+```{r}
+temp <- c(35, 88, 42, 84, 81, 30)
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Agora crie um vetor com os nomes das cidades e chame o objeto \verb|city|.
+\end{enumerate}
+
+```{r}
+city <- c("Pequim", "Lagos", "Paris", "Rio de Janeiro", "San Juan", "Toronto")
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Utilize a função \verb|names| e os objetos definidos nos exercícios anteriores para associar os dados de temperatura à sua cidade correspondente.
+\end{enumerate}
+
+```{r}
+names(temp) <- city
+
+temp
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Utilize os operadores \verb|[| e \verb|:| para acessar a temperatura das três primeiras cidades da lista.
+\end{enumerate}
+
+```{r}
+temp[1:3]
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item  Use o operador \verb|[| para acessar a temperatura de Paris e San Juan.
+\end{enumerate}
+
+```{r}
+temp[c("Paris", "San Juan")]
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item  Use o operador \verb|:| para criar a sequência de números $12, 13, 14, \cdots, 73$.
+\end{enumerate}
+
+```{r}
+vec <- seq(from=12, to=73)
+
+vec
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Crie um vetor contendo todos os números ímpares positivos menores que 100.
+\end{enumerate}
+
+```{r}
+impares_menores_que_100 <- seq(from=1, to=100, by=2)
+
+impares_menores_que_100
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Crie um vetor de números que comece em 6, não passe de 55 e adicione números em incrementos de 4/7: 6, 6 + 4/7, 6 + 8/7 e assim por diante. Quantos números tem a lista? Dica: use \verb|seq| e \verb|length|.
+\end{enumerate}
+
+```{r}
+vec <- seq(from=6, to=55, by=4/7)
+
+length(vec)
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Qual é a classe do seguinte objeto \verb|a <- seq(1, 10, 0.5)|?
+\end{enumerate}
+
+```{r}
+a <- seq(1, 10, 0.5)
+
+class(a)
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Qual é a classe do seguinte objeto \verb|a <- seq(1, 10)|?
+\end{enumerate}
+
+```{r}
+a <- seq(1, 10)
+
+class(a)
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item A classe de \verb|class(a<-1)| é numérica, não inteira. O padrão de R é numérico e para forçar um número inteiro, você precisa adicionar a letra \verb|L|. Confirme se a classe de \verb|1L| é inteira.
+\end{enumerate}
+
+```{r}
+class(1)
+
+class(1L)
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Defina o seguinte vetor:
+\end{enumerate}
+
+```{r}
+x <- c("1", "3", "5")
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item[] e use coerção para obter números inteiros.
+\end{enumerate}
+
+```{r}
+x <- as.numeric(x)
+
+x
+```
+
+
+
