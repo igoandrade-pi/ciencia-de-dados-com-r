@@ -1,5 +1,5 @@
 ---
-title: "Introdução ao R e ao RStudio"
+title: "Capítulo 02: Noções básicas de R"
 author: "Igo da Costa Andrade"
 date: "`r Sys.Date()`"
 output: 
