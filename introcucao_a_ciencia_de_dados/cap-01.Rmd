@@ -438,7 +438,7 @@ city_temps
 ```
 
 \begin{enumerate}[resume, leftmargin=*]
-  \item Qual é a seguinte soma $ 1 + 1/2^2 + 1/3^2 + \cdots + 1/100^2$? ica: graças a Euler, sabemos que deveria estar próximo de $\pi^2/6$.
+  \item Qual é a seguinte soma $ 1 + 1/2^2 + 1/3^2 + \cdots + 1/100^2$? Dica: graças a Euler, sabemos que deveria estar próximo de $\pi^2/6$.
 \end{enumerate}
 
 ```{r}
@@ -449,5 +449,196 @@ x <- 1 / denominador ^2
 sum(x)
 ```
 
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Calcule a taxa de homicídios por 100.000 para cada estado e armazene-a no objeto \verb|murder_rate|. Em seguida, calcule a taxa média de homicídios nos EUA usando a função \verb|mean|. Qual é a média?
+\end{enumerate}
+
+```{r}
+library(dslabs)
+
+data(murders)
+
+murders_rate <- murders$total / murders$population * 10^5
+
+mean(murders_rate)
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Para os exercícios restantes 35-42, comece carregando a biblioteca e os dados.
+\end{enumerate}
+
+```{r}
+library(dslabs)
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item[] Calcule a taxa de homicídios por 100.000 para cada estado e armazene-a em um objeto chamado \verb|murder_rate|. Em seguida, use operadores lógicos para criar um vetor lógico chamado \verb|low| que nos diga quais entradas de \verb|murder_rate| são menores que 1.
+\end{enumerate}
+
+
+```{r}
+library(dslabs)
+
+data(murders)
+
+murder_rate <- murders$total / murders$population * 10^5
+
+low <- murder_rate[murders_rate < 1]
+
+low
+
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Agora use os resultados do exercício anterior e a função \verb|which| para determinar os índices \verb|murder_rate| associados a valores inferiores a 1.
+\end{enumerate}
+
+```{r}
+id_low <- which(murder_rate %in% low)
+id_low
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Utilize os resultados do exercício anterior para reportar os nomes dos estados com taxas de homicídio inferiores a 1.
+\end{enumerate}
+
+```{r}
+murders[id_low, ]
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Agora estenda o código dos exercícios 2 e 3 para relatar os estados do Nordeste com taxas de homicídios inferiores a 1. Dica: use o vetor lógico definido anteriormente \verb|low| e o operador lógico \verb|&|.
+\end{enumerate}
+
+```{r}
+rate <- murders$total / murders$population * 10^5
+
+
+low_and_northeast <- murders$rate[murders$region=="Northeast" & murders$rate < 1]
+
+
+id_low_and_northeast <- which(murders$rate %in% low_and_northeast)
+
+murders[id_low_and_northeast, ]
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Num exercício anterior calculamos a taxa de homicídios para cada estado e a média destes números. Quantos estados estão abaixo da média?
+\end{enumerate}
+
+```{r}
+library(dslabs)
+
+data("murders")
+
+murders$rate <- murders$total / murders$population * 10^5
+
+mean_rate <- mean(murders$rate)
+
+length(murders$rate[murders$rate < mean_rate])
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Use a função de correspondência para identificar os estados com as abreviações AK, MI e IA. Dica: comece definindo um índice das entradas \verb|murders$abb| que correspondem às três abreviações e, em seguida, use o operador \verb|[|  para extrair os estados.
+\end{enumerate}
+
+
+```{r}
+library(dslabs)
+
+data("murders")
+
+abbs <- c("AK", "MI", "IA")
+
+ind <- match(abbs, murders$abb)
+
+murders$state[ind]
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Use o operador \verb|%in%| para criar um vetor lógico que responda à pergunta: quais das seguintes são abreviações reais: MA, ME, MI, MO, MU?
+\end{enumerate}
+
+```{r}
+library(dslabs)
+
+data("murders")
+
+abbs <- c("MA", "ME", "MI", "MO", "MU")
+
+abbs %in% murders$abb
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Estenda o código usado no exercício 7 para relatar a única entrada que não é uma abreviatura real. Dica: utilize o operador \verb|!|, que se transforma \verb|FALSE| em \verb|TRUE| e vice-versa, |verb|which| para obter um índice.
+\end{enumerate}
+
+```{r}
+library(dslabs)
+
+data("murders")
+
+abbs <- c("MA", "ME", "MI", "MO", "MU")
+
+abbs[!(abbs %in% murders$abb)]
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Fizemos um gráfico do total de assassinatos versus população e notamos uma forte relação. Não é de surpreender que estados com populações maiores tenham tido mais assassinatos.
+\end{enumerate}
+
+```{r}
+library(dslabs)
+
+data("murders")
+
+population_in_millions <- murders$population * 10^6
+total_gun_murders <- murders$total
+plot(population_in_millions, total_gun_murders)
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item[] Tenha em mente que muitos estados têm populações abaixo de 5 milhões e estão agrupados. Podemos obter mais insights fazendo este gráfico na escala logarítmica. Transforme as variáveis usando a transformação \verb|log10| e depois represente-as.
+\end{enumerate}
+
+```{r}
+library(dslabs)
+data("murders")
+
+population_in_millions_log10 <- log10(murders$population * 10^6)
+total_gun_murders_log10 <- log10(murders$total)
+plot(population_in_millions_log10, total_gun_murders_log10)
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Crie um histograma das populações do estado.
+\end{enumerate}
+
+```{r}
+library(dslabs)
+data("murders")
+
+hist(murders$population)
+```
+
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Gere boxplots das populações estaduais por região.
+\end{enumerate}
+
+```{r}
+library(dslabs)
+data("murders")
+
+boxplot(murders$population ~ murders$region)
+
+```
 
 
