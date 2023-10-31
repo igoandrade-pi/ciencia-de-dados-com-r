@@ -456,8 +456,7 @@ sum(x)
 
 ```{r}
 library(dslabs)
-
-data(murders)
+data("murders")
 
 murders_rate <- murders$total / murders$population * 10^5
 
