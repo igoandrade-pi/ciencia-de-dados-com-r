@@ -1,0 +1,159 @@
+---
+title: 'Capítulo 03: Noções básicas de programação'
+author: "Igo da Costa Andrade"
+date: "`r Sys.Date()`"
+output: 
+  pdf_document:
+    extra_dependencies: ["enumitem", "xcolor"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library("dslabs")
+```
+
+## Exercícios
+
+\begin{enumerate}[resume, leftmargin=*]
+  \addtocounter{enumi}{2}
+  \item A função \verb|nchar| informa quantos caracteres um vetor de caracteres possui. Escreva uma linha de código que atribua ao objeto \verb|new_names| a abreviatura do estado quando o nome do estado tiver mais de 8 caracteres.
+\end{enumerate}
+
+```{r}
+data("murders")
+
+new_names <- ifelse(nchar(murders$state) <= 8, murders$state, murders$abb)
+
+new_names
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Crie uma função \verb|sum_n| que, para qualquer valor, digamos $n$, calcula a soma dos inteiros de 1 a $n$ (inclusive). Use a função para determinar a soma dos números inteiros de 1 a 5.000.
+\end{enumerate}
+
+```{r}
+sum_n <- function(n) {
+  s <- 0
+  for (i in 1:n) {
+    s <- s + i
+  }
+  s
+}
+
+sum_n(5000)
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Crie uma função \verb|altman_plot| que receba dois argumentos \verb|x| e \verb|y|, e represente graficamente a diferença em relação à soma.
+\end{enumerate}
+
+```{r}
+altman_plot <- function(x, y) {
+  if (length(x)==length(y)) {
+    soma <- x + y
+    diferenca <- x - y
+    plot(soma, diferenca)  
+  } else {
+    print('Vetores devem possir mesmo comprimento!')
+  }
+}
+
+x <- 1:10
+y <- cos(x)
+
+
+altman_plot(x, y)
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Após executar o código abaixo, qual o valor de \verb|x|?
+\end{enumerate}
+
+```{r}
+x <- 3
+
+my_func <- function(y) {
+  x <- 5
+  y+5
+}
+```
+
+O valor de \verb|x| continua igual a 3.
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Escreva uma função \verb|compute_s_n| que para qualquer $n$ dado calcule a soma $$S_n = 1^2 + 2^2 + 3^2 + \cdots + n^2.$$ Informe o valor da soma quando $n = 10$.
+\end{enumerate}
+
+```{r}
+compute_s_n <- function(n) {
+  sum((1:n)^2)
+}
+
+compute_s_n(10)
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Defina um vetor numérico vazio \verb|s_n| de tamanho 25 usando \verb|s_n <- vector("numeric", 25)| e armazene os resultados de $S_1, S_2, \cdots, S_{25}$ usando um \textit{loop for}. \label{exerc-03-08}
+\end{enumerate}
+
+```{r}
+s_n <- vector("numeric", 25)
+
+for (i in 1:25) {
+  s_n[i] <- compute_s_n(i)
+}
+
+s_n
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Repita o exercício \ref{exerc-03-08}, mas desta vez use \verb|sapply|.
+\end{enumerate}
+
+```{r}
+s_n_2 <- sapply(1:25, compute_s_n)
+
+s_n_2
+```
+
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Repita o exercício \ref{exerc-03-08}, mas desta vez use \verb|map_dbl|.
+\end{enumerate}
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Crie o gráfico de $S_n$ versus $n$, mas para $n = 1, \cdots, 25$.
+\end{enumerate}
+
+```{r}
+n <- 25
+x <- 1:25
+y<- sapply(x, compute_s_n)
+plot(x, y)
+```
+
+\begin{enumerate}[resume, leftmargin=*]
+  \item Confirme a fórmula para esta soma é $$S_n = \dfrac{n (n+1)(2n+1)}{6}$$
+\end{enumerate}
+  
+```{r}
+square_sum <- function(n) {
+  n * (n+1) * (2*n + 1) / 6
+}
+
+
+N <- 1:25
+COMPUTE_S_N <- sapply(N, compute_s_n)
+SQUARE_SUM <- sapply(N, square_sum)
+IS_EQUAL <- identical(COMPUTE_S_N, SQUARE_SUM)
+
+df <- data.frame(N, COMPUTE_S_N, SQUARE_SUM, IS_EQUAL)
+
+df
+```
+  
+  
